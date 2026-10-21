@@ -1,4 +1,3 @@
-// app/api/waitlist/route.ts
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
@@ -7,7 +6,7 @@ export async function POST(request: Request) {
 
     if (!email || !email.includes('@')) {
       return NextResponse.json(
-        { error: 'Некорректный email' },
+        { error: 'Invalid email address' },
         { status: 400 }
       );
     }
@@ -18,13 +17,12 @@ export async function POST(request: Request) {
     if (!botToken || !chatId) {
       console.error('Telegram keys are missing in environment variables');
       return NextResponse.json(
-        { error: 'Ошибка конфигурации сервера' },
+        { error: 'Server configuration error' },
         { status: 500 }
       );
     }
 
-    // Сообщение, которое придет в Telegram
-    const text = `🔥 *Новый лид в eSIM Vibe!*\n\n📧 *Email:* \`${email}\` \n🎁 *Оффер:* Скидка 35%`;
+    const text = `🔥 *New eSIM Vibe Waitlist Lead!*\n\n📧 *Email:* \`${email}\` \n🎁 *Offer:* 35% OFF Early Access`;
 
     const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
@@ -46,7 +44,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('Waitlist API Error:', error);
     return NextResponse.json(
-      { error: 'Не удалось сохранить заявку' },
+      { error: 'Failed to join waitlist' },
       { status: 500 }
     );
   }
